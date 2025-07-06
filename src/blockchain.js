@@ -4,11 +4,14 @@ import { blockService } from "./db.js";
 
 export class BlockChain {
     constructor() {
-        blockService.create(this.createGenesis());
+        const chain = this.getChain();
+        if (chain.length === 0) {
+            blockService.create(this.createGenesis());
+        }
     }
 
     createGenesis() {
-        return new Block(0, "01/01/2025", "Genesis Block", "0");
+        return new Block(0, new Date().toISOString(), "Genesis Block", "0");
     }
 
     addBlock(json) {
@@ -42,5 +45,24 @@ export class BlockChain {
         }
 
         return true;
+    }
+
+    getChain() {
+        const chain = blockService.getChain();
+        chain.map((row) => this.buildBlock(row));
+        return chain;
+    }
+
+    buildBlock(row) {
+        const block = new Block(
+            row.block_index,
+            row.timestamp,
+            row.data,
+            row.prevHash,
+            row.hash,
+            row.nonce,
+            row.id,
+        );
+        return block;
     }
 }

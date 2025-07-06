@@ -1,4 +1,3 @@
-import { Block } from "./block.js";
 import { Database } from "bun:sqlite";
 const db = new Database("blockchain.sqlite", { create: true });
 
@@ -49,8 +48,7 @@ export const blockService = {
     };
   },
   getChain: () => {
-    const chain = getChain.all();
-    return chain.map((row) => buildBlock(row));
+    return getChain.all();
   },
 
   getLastBlock: () => {
@@ -60,16 +58,3 @@ export const blockService = {
     return nextIndex.get().count;
   },
 };
-
-function buildBlock(row) {
-  const block = new Block(
-    row.block_index,
-    row.timestamp,
-    row.data,
-    row.prevHash,
-    row.hash,
-    row.nonce,
-    row.id,
-  );
-  return block;
-}
