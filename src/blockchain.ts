@@ -1,5 +1,5 @@
 import { assert } from "node:console";
-import { Block } from "./block.js";
+import { Block } from "./block.ts";
 import { blockService } from "./db.js";
 
 export class BlockChain {
@@ -14,7 +14,7 @@ export class BlockChain {
         return new Block(0, new Date().toISOString(), "Genesis Block", "0");
     }
 
-    addBlock(json) {
+    addBlock(json: object) {
         const block = new Block(
             blockService.nextIndex(),
             json.timestamp,

@@ -1,7 +1,23 @@
 const SHA256 = require("crypto-js/sha256");
 
 export class Block {
-    constructor(index, timestamp, data, prevHash, hash, nonce, id) {
+    public id: number;
+    public index: number;
+    public timestamp: string;
+    public data: string;
+    public prevHash: string;
+    public hash: string;
+    public nonce: number;
+
+    constructor(
+        index: number,
+        timestamp: string,
+        data: string,
+        prevHash: string,
+        hash?: string,
+        nonce?: number,
+        id?: number,
+    ) {
         this.id = id ? id : 0;
         this.index = index;
         this.timestamp = timestamp;
@@ -18,6 +34,6 @@ export class Block {
         ).toString();
     }
 
-    mineBlock(difficulty) {
+    mineBlock(difficulty: number): void {
     }
 }

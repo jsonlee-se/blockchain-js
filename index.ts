@@ -1,4 +1,4 @@
-import { BlockChain } from "./src/blockchain.js";
+import { BlockChain } from "./src/blockchain.ts";
 
 const server = Bun.serve({
     port: 3000,

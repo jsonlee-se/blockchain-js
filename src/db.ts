@@ -28,7 +28,7 @@ const nextIndex = db.query(
 );
 
 export const blockService = {
-  create: (block) => {
+  create: (block: object) => {
     const res = insertBlock.run({
       $block_index: block.index,
       $timestamp: block.timestamp,
