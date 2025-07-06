@@ -1,21 +1,18 @@
 import { BlockChain } from "./src/blockchain.ts";
+import { Router } from "./src/router.ts";
+
+const router = new Router();
+const blockChain = new BlockChain();
+
+router.get("/chain", (req: Request) => {
+    return new Response(JSON.stringify(blockChain.getChain(), null, 4), {
+        headers: { "Content-Type": "application/json" },
+    });
+});
 
 const server = Bun.serve({
     port: 3000,
-    fetch(req) {
-        let jsChain = new BlockChain();
-        jsChain.addBlock({
-            timestamp: new Date().toISOString(),
-            data: "amount = 5",
-        });
-        jsChain.addBlock({
-            timestamp: new Date().toISOString(),
-            data: "amount = 10",
-        });
-
-        const res = JSON.stringify(jsChain.getChain(), null, 4);
-        return new Response(res);
-    },
+    fetch: router.handle.bind(router),
 });
 
 console.log(`Listening on http://localhost:${server.port} ...`);
