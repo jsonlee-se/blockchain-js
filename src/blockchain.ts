@@ -22,7 +22,7 @@ export class BlockChain {
         );
         const lastBlock = blockService.getLastBlock();
         block.prevHash = lastBlock.hash;
-        block.hash = block.calculateHash();
+        block.mineBlock();
         return blockService.create(block);
     }
 

@@ -1,5 +1,7 @@
 const SHA256 = require("crypto-js/sha256");
 
+const DIFFICULTY = 4;
+
 export class Block {
     public id: number;
     public index: number;
@@ -13,8 +15,6 @@ export class Block {
         index: number,
         data: string,
         prevHash: string,
-        hash?: string,
-        nonce?: number,
         id?: number,
     ) {
         this.id = id ? id : 0;
@@ -22,8 +22,8 @@ export class Block {
         this.timestamp = new Date().toISOString();
         this.data = data;
         this.prevHash = prevHash;
-        this.hash = hash ? hash : this.calculateHash();
-        this.nonce = nonce ? nonce : 0;
+        this.hash = this.calculateHash();
+        this.nonce = 0;
     }
 
     calculateHash() {
@@ -33,6 +33,10 @@ export class Block {
         ).toString();
     }
 
-    mineBlock(difficulty: number): void {
+    mineBlock(): void {
+        do {
+            this.nonce++;
+            this.hash = this.calculateHash();
+        } while (!this.hash.startsWith("0".repeat(DIFFICULTY)));
     }
 }
