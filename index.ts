@@ -10,6 +10,26 @@ router.get("/chain", (req: Request) => {
     });
 });
 
+router.post("/block", async (req: Request) => {
+    let body;
+    try {
+        body = await req.json();
+    } catch (e) {
+        return new Response(JSON.stringify({ error: "invalid JSON body" }), {
+            status: 400,
+            headers: { "Content-Type": "application/json" },
+        });
+    }
+    const block = blockChain.addBlock(body);
+    const res = {
+        "message": "Block added",
+        "block": block,
+    };
+    return new Response(JSON.stringify(res, null, 4), {
+        headers: { "Content-Type": "application/json" },
+    });
+});
+
 const server = Bun.serve({
     port: 3000,
     fetch: router.handle.bind(router),

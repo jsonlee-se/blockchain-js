@@ -17,7 +17,6 @@ export class BlockChain {
     addBlock(json: object) {
         const block = new Block(
             blockService.nextIndex(),
-            json.timestamp,
             json.data,
             "",
         );
@@ -53,7 +52,7 @@ export class BlockChain {
         return chain;
     }
 
-    buildBlock(row) {
+    buildBlock(row: object) {
         const block = new Block(
             row.block_index,
             row.timestamp,

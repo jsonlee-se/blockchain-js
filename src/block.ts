@@ -11,7 +11,6 @@ export class Block {
 
     constructor(
         index: number,
-        timestamp: string,
         data: string,
         prevHash: string,
         hash?: string,
@@ -20,7 +19,7 @@ export class Block {
     ) {
         this.id = id ? id : 0;
         this.index = index;
-        this.timestamp = timestamp;
+        this.timestamp = new Date().toISOString();
         this.data = data;
         this.prevHash = prevHash;
         this.hash = hash ? hash : this.calculateHash();
